@@ -21,7 +21,31 @@
         </section>
         
         <section class="feature-card" id="tracker-placeholder">
-            <h2> Database Tracker</h2>
+            <h2>Database Tracker: Subjects</h2>
+            {% if subjects %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Unit</th>
+                        <th>Difficulty</th>
+                        <th>Deadline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td>{{ subject['name'] }}</td>
+                        <td>{{ subject['syllabus_unit'] }}</td>
+                        <td>{{ subject['difficulty'] }} / 5</td>
+                        <td>{{ subject['deadline'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No subjects in the database yet. Time to add some!</p>
+            {% endif %}
         </section>
     </main>
 
