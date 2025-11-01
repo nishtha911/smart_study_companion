@@ -1,7 +1,7 @@
 body {
     font-family: 'Times New Roman'; /*temporary font, will look for something cool later*/
     background-color: #000000;
-    color: #000000;
+    color: white; /* Changed body color to white for contrast on black background */
     margin: 0;
     padding: 0;
 }
@@ -30,6 +30,38 @@ header {
     flex: 1 1 300px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
+
+.feature-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    color: white; 
+    font-size: 0.9em;
+}
+
+.feature-card th, .feature-card td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #a341b5;
+}
+
+.feature-card th {
+    background-color: #6d157d; 
+    font-weight: bold;
+}
+
+
+.urgent-red {
+    color: #ff5555; 
+    font-weight: bold;
+}
+
+.warning-yellow {
+    color: #ffffa0; 
+    font-weight: bold;
+}
+
 
 footer {
     text-align: center;
