@@ -1,6 +1,8 @@
 from flask import Flask, render_template, g
 import sqlite3
 
+from datetime import date, datetime 
+
 app = Flask(__name__)
 
 DATABASE = 'study_companion.db'
@@ -30,9 +32,28 @@ def init_db():
 @app.route('/')
 def index():
     db = get_db()
-    subjects = db.execute('SELECT id, name, difficulty, deadline FROM subjects').fetchall()
+
+    raw_subjects = db.execute('SELECT id, name, difficulty, deadline, progress_pct, syllabus_unit FROM subjects').fetchall()
     
-    return render_template('index.html', subjects=subjects)
+    subjects_with_days = []
+    today = date.today()
+
+    for row in raw_subjects:
+
+        subject = dict(row)
+        
+
+        try:
+
+            deadline_date = datetime.strptime(subject['deadline'], '%Y-%m-%d').date()
+            time_difference = deadline_date - today
+            subject['days_left'] = time_difference.days
+        except ValueError:
+            subject['days_left'] = 'N/A'
+        
+        subjects_with_days.append(subject)
+    
+    return render_template('index.html', subjects=subjects_with_days)
 
 if __name__ == '__main__':
     app.teardown_appcontext(close_connection) 

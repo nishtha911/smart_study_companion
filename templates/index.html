@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Companion</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Temporary name</h1>
+        <h1>Smart Study Companion</h1>
     </header>
 
     <main id="dashboard-layout">
@@ -30,7 +30,7 @@
                         <th>Unit</th>
                         <th>Difficulty</th>
                         <th>Deadline</th>
-                    </tr>
+                        <th>Days Left</th> </tr>
                 </thead>
                 <tbody>
                     {% for subject in subjects %}
@@ -39,6 +39,16 @@
                         <td>{{ subject['syllabus_unit'] }}</td>
                         <td>{{ subject['difficulty'] }} / 5</td>
                         <td>{{ subject['deadline'] }}</td>
+                        <td>
+                            {# Display days left here. Use conditional formatting for clarity #}
+                            {% if subject.days_left < 0 %}
+                                <strong style="color: red;">OVERDUE</strong>
+                            {% elif subject.days_left < 5 %}
+                                <strong style="color: yellow;">{{ subject.days_left }} Days!</strong>
+                            {% else %}
+                                {{ subject.days_left }}
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
