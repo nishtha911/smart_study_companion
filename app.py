@@ -1,6 +1,5 @@
 from flask import Flask, render_template, g
 import sqlite3
-
 from datetime import date, datetime 
 
 app = Flask(__name__)
@@ -11,7 +10,7 @@ def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
             DATABASE,
-            detect_types=sqlite3.PARSE_DECLTYPES
+            detect_types=sqlite3.PARSE_DECLTYPES 
         )
         g.db.row_factory = sqlite3.Row 
     return g.db
@@ -32,24 +31,29 @@ def init_db():
 @app.route('/')
 def index():
     db = get_db()
-
     raw_subjects = db.execute('SELECT id, name, difficulty, deadline, progress_pct, syllabus_unit FROM subjects').fetchall()
     
     subjects_with_days = []
     today = date.today()
 
     for row in raw_subjects:
-
         subject = dict(row)
         
-
-        try:
-
-            deadline_date = datetime.strptime(subject['deadline'], '%Y-%m-%d').date()
+        deadline_raw = subject['deadline']
+        
+        if isinstance(deadline_raw, str):
+            try:
+                deadline_date = datetime.strptime(deadline_raw, '%Y-%m-%d').date()
+            except ValueError:
+                deadline_date = None
+        else:
+            deadline_date = deadline_raw
+            
+        if deadline_date:
             time_difference = deadline_date - today
             subject['days_left'] = time_difference.days
-        except ValueError:
-            subject['days_left'] = 'N/A'
+        else:
+            subject['days_left'] = 'N/A (Error)'
         
         subjects_with_days.append(subject)
     
@@ -58,6 +62,7 @@ def index():
 if __name__ == '__main__':
     app.teardown_appcontext(close_connection) 
     
+
     with app.app_context():
         init_db()
         
