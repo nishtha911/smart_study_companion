@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, request, redirect, url_for 
 import sqlite3
 from datetime import date, datetime 
 
@@ -10,7 +10,7 @@ def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
             DATABASE,
-            detect_types=sqlite3.PARSE_DECLTYPES 
+            detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row 
     return g.db
@@ -59,10 +59,29 @@ def index():
     
     return render_template('index.html', subjects=subjects_with_days)
 
+@app.route('/add_subject', methods=['POST'])
+def add_subject():
+    if request.method == 'POST':
+        name = request.form['name']
+        syllabus_unit = request.form['syllabus_unit']
+        difficulty = int(request.form['difficulty']) 
+        deadline = request.form['deadline']
+        
+        db = get_db()
+        try:
+            db.execute(
+                'INSERT INTO subjects (name, syllabus_unit, difficulty, deadline) VALUES (?, ?, ?, ?)',
+                (name, syllabus_unit, difficulty, deadline)
+            )
+            db.commit()
+        except sqlite3.IntegrityError:
+            pass
+            
+        return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.teardown_appcontext(close_connection) 
     
-
     with app.app_context():
         init_db()
         
