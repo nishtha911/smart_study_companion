@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Companion</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
 </head>
 <body>
     <header>
@@ -27,24 +27,24 @@
                 <thead>
                     <tr>
                         <th>Subject</th>
-                        <th>Unit</th>
+                        <th>Topic</th>
                         <th>Difficulty</th>
                         <th>Deadline</th>
-                        <th>Days Left</th> </tr>
+                        <th>Days Left</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {% for subject in subjects %}
                     <tr>
-                        <td>{{ subject['name'] }}</td>
                         <td>{{ subject['syllabus_unit'] }}</td>
+                        <td>{{ subject['name'] }}</td>
                         <td>{{ subject['difficulty'] }} / 5</td>
                         <td>{{ subject['deadline'] }}</td>
                         <td>
-                            {# Display days left here. Use conditional formatting for clarity #}
                             {% if subject.days_left < 0 %}
-                                <strong style="color: red;">OVERDUE</strong>
+                                <span class="urgent-red">OVERDUE ({{ subject.days_left * -1 }} Days)</span>
                             {% elif subject.days_left < 5 %}
-                                <strong style="color: yellow;">{{ subject.days_left }} Days!</strong>
+                                <span class="warning-yellow">{{ subject.days_left }} Days!</span>
                             {% else %}
                                 {{ subject.days_left }}
                             {% endif %}
