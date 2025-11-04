@@ -13,7 +13,7 @@
 
     <main id="dashboard-layout">
         <section class="feature-card" id="input-form">
-            <h2>+ Add New Subject</h2>
+            <h2>➕ Add New Subject</h2>
             <form method="POST" action="/add_subject">
                 <p>
                     <label for="name">Topic Name:</label>
@@ -54,7 +54,7 @@
                         <th>Difficulty</th>
                         <th>Deadline</th>
                         <th>Days Left</th>
-                    </tr>
+                        <th>Action</th> </tr>
                 </thead>
                 <tbody>
                     {% for subject in subjects %}
@@ -70,6 +70,16 @@
                                 <span class="warning-yellow">{{ subject.days_left }} Days!</span>
                             {% else %}
                                 {{ subject.days_left }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if subject.progress_pct == 0 %}
+                                <form method="POST" action="/complete_subject">
+                                    <input type="hidden" name="subject_id" value="{{ subject.id }}">
+                                    <button type="submit" class="progress-button">Mark Complete</button>
+                                </form>
+                            {% else %}
+                                <span style="color: #4CAF50; font-weight: bold;">DONE!</span>
                             {% endif %}
                         </td>
                     </tr>
