@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, redirect, url_for 
+from flask import Flask, render_template, g, request, redirect, url_for
 import sqlite3
 from datetime import date, datetime 
 
@@ -76,6 +76,21 @@ def add_subject():
             db.commit()
         except sqlite3.IntegrityError:
             pass
+            
+        return redirect(url_for('index'))
+
+@app.route('/complete_subject', methods=['POST'])
+def complete_subject():
+    if request.method == 'POST':
+        subject_id = request.form.get('subject_id')
+        
+        if subject_id:
+            db = get_db()
+            db.execute(
+                'UPDATE subjects SET progress_pct = 100 WHERE id = ?',
+                (subject_id,)
+            )
+            db.commit()
             
         return redirect(url_for('index'))
 
