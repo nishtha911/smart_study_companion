@@ -28,24 +28,21 @@ def init_db():
         db.commit()
         print("Database initialized successfully.")
 
-@app.route('/')
-def index():
-    db = get_db()
-    raw_subjects = db.execute('SELECT id, name, difficulty, deadline, progress_pct, syllabus_unit FROM subjects').fetchall()
-    
-    subjects_with_days = []
+def calculate_days_left(raw_subjects):
+    """Helper function to calculate days left and convert rows to dicts."""
+    processed_subjects = []
     today = date.today()
 
     for row in raw_subjects:
         subject = dict(row)
-        
         deadline_raw = subject['deadline']
         
+        deadline_date = None
         if isinstance(deadline_raw, str):
             try:
                 deadline_date = datetime.strptime(deadline_raw, '%Y-%m-%d').date()
             except ValueError:
-                deadline_date = None
+                pass
         else:
             deadline_date = deadline_raw
             
@@ -55,9 +52,26 @@ def index():
         else:
             subject['days_left'] = 'N/A (Error)'
         
-        subjects_with_days.append(subject)
+        processed_subjects.append(subject)
+    return processed_subjects
+
+@app.route('/')
+def index():
+    db = get_db()
     
-    return render_template('index.html', subjects=subjects_with_days)
+    active_subjects_raw = db.execute(
+        'SELECT id, name, difficulty, deadline, progress_pct, syllabus_unit FROM subjects WHERE progress_pct < 100 ORDER BY deadline ASC'
+    ).fetchall()
+    
+    completed_subjects_raw = db.execute(
+        'SELECT id, name, syllabus_unit, deadline FROM subjects WHERE progress_pct = 100 ORDER BY deadline DESC'
+    ).fetchall()
+
+    active_subjects = calculate_days_left(active_subjects_raw)
+    
+    return render_template('index.html', 
+                           subjects=active_subjects, 
+                           completed_subjects=completed_subjects_raw) 
 
 @app.route('/add_subject', methods=['POST'])
 def add_subject():
