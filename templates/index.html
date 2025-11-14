@@ -12,6 +12,7 @@
     </header>
 
     <main id="dashboard-layout">
+        
         <section class="feature-card" id="input-form">
             <h2>➕ Add New Subject</h2>
             <form method="POST" action="/add_subject">
@@ -35,16 +36,8 @@
             </form>
         </section>
 
-        <section class="feature-card" id="planner-placeholder">
-            <h2>Smart Study Planner</h2>
-        </section>
-
-        <section class="feature-card" id="chatbot-placeholder">
-            <h2>Mini Chatbot</h2>
-        </section>
-        
         <section class="feature-card" id="tracker-placeholder">
-            <h2>Database Tracker: Subjects</h2>
+            <h2>🔥 Active Topics (Incomplete)</h2>
             {% if subjects %}
             <table>
                 <thead>
@@ -73,22 +66,41 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if subject.progress_pct == 0 %}
-                                <form method="POST" action="/complete_subject">
-                                    <input type="hidden" name="subject_id" value="{{ subject.id }}">
-                                    <button type="submit" class="progress-button">Mark Complete</button>
-                                </form>
-                            {% else %}
-                                <span style="color: #4CAF50; font-weight: bold;">DONE!</span>
-                            {% endif %}
+                            <form method="POST" action="/complete_subject" style="margin: 0;">
+                                <input type="hidden" name="subject_id" value="{{ subject.id }}">
+                                <button type="submit" class="progress-button">Complete</button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% else %}
-            <p>No subjects in the database yet. Time to add some!</p>
+            <p style="color: #79a6ff;">All tracked subjects are complete! Add a new one.</p>
             {% endif %}
+        </section>
+        
+        <section class="feature-card" id="planner-placeholder">
+            <h2>Smart Study Planner</h2>
+            {% if completed_subjects %}
+            <div id="completed-tasks">
+                <h3 style="color: #4CAF50; border-bottom: 1px solid #4CAF50; padding-bottom: 5px;">✅ Completed Tasks</h3>
+                <ul style="list-style: none; padding-left: 0; font-size: 0.9em;">
+                    {% for subject in completed_subjects %}
+                        <li style="margin-bottom: 5px;">
+                            <strong>[{{ subject['syllabus_unit'] }}]</strong> {{ subject['name'] }} <span style="float: right; color: #4CAF50;">DONE</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <p>No tasks completed yet. Get studying!</p>
+            {% endif %}
+        </section>
+
+        <section class="feature-card" id="chatbot-placeholder">
+            <h2>Mini Chatbot</h2>
+            <p>Future home of your AI-powered study assistant.</p>
         </section>
     </main>
 
