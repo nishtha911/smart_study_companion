@@ -17,12 +17,23 @@
             <h2>➕ Add New Subject</h2>
             <form method="POST" action="/add_subject">
                 <p>
-                    <label for="name">Topic Name:</label>
+                    <label for="syllabus_unit">Subject (Main Course):</label>
+                    <select id="syllabus_unit" name="syllabus_unit" required style="width: 100%; padding: 10px; border-radius: 4px; background-color: #1a1a1d; color: #f1f1f1; border: 1px solid #444;">
+                        <option value="DBMS">DBMS</option>
+                        <option value="CN">CN</option>
+                        <option value="WT">WT</option>
+                        <option value="AI">AI</option>
+                        <option value="HCI">HCI</option>
+                        <option value="NEW">Add New Subject/Unit</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="name">Sub-Topic Name (Required):</label>
                     <input type="text" id="name" name="name" required>
                 </p>
                 <p>
-                    <label for="unit">Subject Unit (e.g., DBMS):</label>
-                    <input type="text" id="unit" name="syllabus_unit" required>
+                    <label for="sub_topic">Sub-Topic Details (Optional):</label>
+                    <input type="text" id="sub_topic" name="sub_topic" placeholder="e.g., Unit 3: Normalization Forms">
                 </p>
                 <p>
                     <label for="difficulty">Difficulty (1-5):</label>
@@ -47,7 +58,8 @@
                         <th>Difficulty</th>
                         <th>Deadline</th>
                         <th>Days Left</th>
-                        <th>Action</th> </tr>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {% for subject in subjects %}
@@ -76,7 +88,7 @@
                 </tbody>
             </table>
             {% else %}
-            <p style="color: #79a6ff;">All tracked subjects are complete! Add a new one.</p>
+            <p style="color: #00e676;">All tracked subjects are complete! Add a new one.</p>
             {% endif %}
         </section>
         
