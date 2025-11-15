@@ -76,16 +76,23 @@ def index():
 @app.route('/add_subject', methods=['POST'])
 def add_subject():
     if request.method == 'POST':
-        name = request.form['name']
-        syllabus_unit = request.form['syllabus_unit']
+        # Get data from the form
+        syllabus_unit = request.form['syllabus_unit']  
+        name = request.form['name']                    
+        sub_topic = request.form.get('sub_topic')     
         difficulty = int(request.form['difficulty']) 
         deadline = request.form['deadline']
         
+        if sub_topic:
+            final_name = f"{name}: {sub_topic}"
+        else:
+            final_name = name
+            
         db = get_db()
         try:
             db.execute(
                 'INSERT INTO subjects (name, syllabus_unit, difficulty, deadline) VALUES (?, ?, ?, ?)',
-                (name, syllabus_unit, difficulty, deadline)
+                (final_name, syllabus_unit, difficulty, deadline)
             )
             db.commit()
         except sqlite3.IntegrityError:
