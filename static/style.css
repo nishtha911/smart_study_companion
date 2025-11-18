@@ -1,79 +1,79 @@
 body {
-    font-family: 'Saira Extra Condensed', 'Open Sans', 'Lato', 'Arial', sans-serif; 
-    background-color: #0c1d16; 
-    color: #f0f0f5; 
-    margin: 0;
-    padding: 0;
-    line-height: 1.4;
-    font-size: 16px;
-    background-image: none; 
-    background-attachment: fixed;
+   font-family: 'Saira Extra Condensed', 'Open Sans', 'Lato', 'Arial', sans-serif; 
+   background-color: #0c1d16; 
+   color: #f0f0f5; 
+   margin: 0;
+   padding: 0;
+   line-height: 1.4;
+   font-size: 16px;
+   background-image: none; 
+   background-attachment: fixed;
 }
 
 :root {
-    --accent-color: #00e676; 
-    --accent-dark: #00b359;
-    --background-card: #0c1d16; 
-    --background-header: #0c1d16;
-    --background-blur: rgba(31, 35, 33, 0.7); 
-    --border-color: rgba(0, 230, 118, 0.4); 
+   --accent-color: #00e676; 
+   --accent-dark: #00b359;
+   --background-card: #0c1d16; 
+   --background-header: #0c1d16;
+   --background-blur: rgba(31, 35, 33, 0.7); 
+   --border-color: rgba(0, 230, 118, 0.4); 
 }
 
 header {
-    background-color: var(--background-blur); 
-    color: var(--accent-color); 
-    padding: 25px;
-    text-align: center;
-    border-bottom: 2px solid var(--accent-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+   background-color: var(--background-blur); 
+   color: var(--accent-color); 
+   padding: 25px;
+   text-align: center;
+   border-bottom: 2px solid var(--accent-color);
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+   backdrop-filter: blur(15px);
+   -webkit-backdrop-filter: blur(15px);
 }
 
 h1 {
-    font-size: 2.5em;
-    font-weight: 200; 
-    margin: 0;
-    letter-spacing: 5px; 
-    text-transform: uppercase;
-    text-shadow: none; 
-    line-height: 1;
+   font-size: 2.5em;
+   font-weight: 200; 
+   margin: 0;
+   letter-spacing: 5px; 
+   text-transform: uppercase;
+   text-shadow: none; 
+   line-height: 1;
 }
 
 h2 {
-    color: var(--accent-color);
-    font-size: 1.5em;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    font-weight: 300;
+   color: var(--accent-color);
+   font-size: 1.5em;
+   border-bottom: 1px solid var(--border-color);
+   padding-bottom: 10px;
+   margin-bottom: 20px;
+   font-weight: 300;
 }
 
 
 #dashboard-layout {
-    display: grid;
-    grid-template-columns: 350px 1fr; 
-    grid-template-rows: auto auto; 
-    gap: 25px;
-    padding: 30px;
-    max-width: 1400px;
-    margin: 30px auto;
+   display: grid;
+   grid-template-columns: 350px 1fr; 
+   grid-template-rows: auto auto; 
+   gap: 25px;
+   padding: 30px;
+   max-width: 1400px;
+   margin: 30px auto;
 }
 
 .feature-card {
-    background: var(--background-blur); 
-    border: 1px solid var(--border-color); 
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4); 
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    transition: transform 0.2s, box-shadow 0.2s;
+   background: var(--background-blur); 
+   border: 1px solid var(--border-color); 
+   border-radius: 12px;
+   padding: 25px;
+   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4); 
+   backdrop-filter: blur(15px);
+   -webkit-backdrop-filter: blur(15px);
+   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .feature-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
+   transform: translateY(-2px);
+   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
 }
 
 #input-form { grid-column: 1 / 2; grid-row: 1 / 2; }
@@ -86,97 +86,162 @@ h2 {
 .feature-card input[type="number"],
 .feature-card input[type="date"],
 .feature-card select {
-    width: 95%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.05); 
-    color: white; 
-    font-size: 1em;
+   width: 95%;
+   padding: 10px;
+   border: 1px solid var(--border-color);
+   border-radius: 4px;
+   background-color: rgba(255, 255, 255, 0.05); 
+   color: white; 
+   font-size: 1em;
 }
 
 .feature-card button[type="submit"] {
-    background-color: var(--accent-color); 
-    color: #11111a; 
-    padding: 12px 15px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 700;
-    transition: background-color 0.2s ease, transform 0.1s;
-    width: 100%;
-    margin-top: 20px;
-    text-transform: uppercase;
+   background-color: var(--accent-color); 
+   color: #11111a; 
+   padding: 12px 15px;
+   border: none;
+   border-radius: 6px;
+   font-weight: 700;
+   transition: background-color 0.2s ease, transform 0.1s;
+   width: 100%;
+   margin-top: 20px;
+   text-transform: uppercase;
 }
 
 .feature-card button[type="submit"]:hover {
-    background-color: var(--accent-dark); 
-    transform: scale(1.02);
+   background-color: var(--accent-dark); 
+   transform: scale(1.02);
 }
 
 
 .feature-card table { border-radius: 8px; overflow: hidden; }
 
 .feature-card th, .feature-card td {
-    padding: 12px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   padding: 12px 15px;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .feature-card th {
-    background-color: rgba(0, 0, 0, 0.2); 
-    font-weight: 400;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    font-size: 0.8em;
+   background-color: rgba(0, 0, 0, 0.2); 
+   font-weight: 400;
+   color: var(--accent-color);
+   text-transform: uppercase;
+   font-size: 0.8em;
 }
 
 .feature-card tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.03); 
+   background-color: rgba(255, 255, 255, 0.03); 
 }
 
 .feature-card tr:hover {
-    background-color: rgba(0, 0, 0, 0.15); 
+   background-color: rgba(0, 0, 0, 0.15); 
 }
+
 
 .urgent-red { color: #ff6b6b; font-weight: 600; }
 .warning-yellow { color: #ffd700; font-weight: 600; }
 
 .progress-button {
-    background-color: rgba(255, 255, 255, 0.15); 
-    color: #f0f0f5;
-    padding: 5px 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 0.8em;
-    font-weight: 400;
+   background-color: rgba(255, 255, 255, 0.15); 
+   color: #f0f0f5;
+   padding: 5px 8px;
+   border: 1px solid var(--border-color);
+   border-radius: 4px;
+   font-size: 0.8em;
+   font-weight: 400;
 }
 
 .progress-button:hover {
-    background-color: var(--accent-dark);
-    color: #11111a;
-    border-color: var(--accent-dark);
+   background-color: var(--accent-dark);
+   color: #11111a;
+   border-color: var(--accent-dark);
 }
 
 .delete-button {
-    background-color: #ff6b6b; 
-    color: white;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.8em;
-    font-weight: 400;
+   background-color: #ff6b6b; 
+   color: white;
+   padding: 5px 8px;
+   border: none;
+   border-radius: 4px;
+   font-size: 0.8em;
+   font-weight: 400;
 }
 
 .delete-button:hover {
-    background-color: #cc4d38;
+   background-color: #cc4d38;
 }
 
 
 footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.8em;
-    color: #777; 
-    background-color: var(--background-blur);
-    border-top: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
+   text-align: center;
+   padding: 20px;
+   font-size: 0.8em;
+   color: #777; 
+   background-color: var(--background-blur);
+   border-top: 1px solid var(--border-color);
+   backdrop-filter: blur(10px);
+}
+
+
+.clean-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.exam-list-item {
+    margin-bottom: 12px;
+    padding: 10px;
+    border-left: 4px solid #333;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 300;
+}
+
+.exam-type-tag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    font-weight: 600;
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+.exam-subject {
+    flex-grow: 1;
+    color: #f0f0f5;
+}
+
+.exam-date {
+    font-size: 0.9em;
+    font-weight: 400;
+    color: #a0a0a0;
+}
+
+
+.exam-class-test {
+    border-left-color: #777; 
+}
+.exam-class-test .exam-type-tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f0f0f5;
+}
+
+.exam-insem {
+    border-left-color: var(--accent-color); 
+}
+.exam-insem .exam-type-tag {
+    background: var(--accent-dark);
+    color: #0c1d16;
+}
+
+.exam-endsem {
+    border-left-color: #ffd700; 
+}
+.exam-endsem .exam-type-tag {
+    background: #ffd700;
+    color: #11111a;
 }

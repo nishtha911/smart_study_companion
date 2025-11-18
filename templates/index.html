@@ -18,7 +18,7 @@
             <form method="POST" action="/add_subject">
                 <p>
                     <label for="syllabus_unit">Subject Name (Core Course):</label>
-                    <select id="syllabus_unit" name="syllabus_unit" required style="width: 100%; padding: 10px; border-radius: 4px; background-color: #1a1a1d; color: #f1f1f1; border: 1px solid #444;">
+                    <select id="syllabus_unit" name="syllabus_unit" required>
                         <option value="DBMS">DBMS</option>
                         <option value="CN">CN</option>
                         <option value="WT">WT</option>
@@ -63,7 +63,7 @@
                         <th>Difficulty</th>
                         <th>Deadline</th>
                         <th>Days Left</th>
-                        <th>Action</th>
+                        <th colspan="2">Action</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -83,10 +83,16 @@
                                 {{ subject.days_left }}
                             {% endif %}
                         </td>
-                        <td>
-                            <form method="POST" action="/complete_subject" style="margin: 0;">
+                        <td style="padding-right: 5px;">
+                            <form method="POST" action="/complete_subject" class="inline-form">
                                 <input type="hidden" name="subject_id" value="{{ subject.id }}">
-                                <button type="submit" class="progress-button">Complete</button>
+                                <button type="submit" class="progress-button" title="Mark as 100% Complete">Complete</button>
+                            </form>
+                        </td>
+                        <td style="padding-left: 5px;">
+                            <form method="POST" action="/delete_subject" class="inline-form">
+                                <input type="hidden" name="subject_id" value="{{ subject.id }}">
+                                <button type="submit" class="delete-button" title="Delete Topic" onclick="return confirm('Are you sure you want to delete this topic?');">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -94,35 +100,58 @@
                 </tbody>
             </table>
             {% else %}
-            <p style="color: #00e676;">All tracked subjects are complete! Add a new one.</p>
+            <p style="color: var(--accent-color);">All tracked subjects are complete! Add a new one.</p>
             {% endif %}
         </section>
         
         <section class="feature-card" id="planner-placeholder">
-            <h2>🧠 Smart Study Planner (Top Priority)</h2>
-            {% if subjects %}
-                <ul style="list-style: none; padding-left: 0;">
-                    {% for subject in subjects[:3] %}
-                        <li style="margin-bottom: 12px; padding: 8px; border-left: 3px solid var(--accent-color); background: #25252a; border-radius: 4px;">
-                            <strong style="color: var(--accent-color);">{{ loop.index }}. [{{ subject['subject_name'] }} Unit {{ subject['subject_unit'] }}]</strong> 
-                            {{ subject['chapter_name'] }}
-                            <span style="float: right;">
-                                {% if subject.days_left < 5 %}
-                                    <span class="urgent-red">({{ subject.days_left }} Days Left!)</span>
-                                {% else %}
-                                    <span style="color: #b0e0e6;">({{ subject.days_left }} Days)</span>
-                                {% endif %}
-                            </span>
-                        </li>
-                    {% endfor %}
+            <h2>🧠 Smart Study Planner</h2>
+
+            <div id="exam-calendar" style="margin-bottom: 25px;">
+                <h3 style="color: #ffcc00; border-bottom: 1px solid #ffcc00; padding-bottom: 5px; font-weight: 300;">🗓 Upcoming Exams</h3>
+                <ul class="clean-list">
+                    {% if exams %}
+                        {% for exam in exams %}
+                            {% set exam_type = exam['exam_type'] %}
+                            
+                            <li class="exam-list-item {% if exam_type == 'InSem' %}exam-insem{% elif exam_type == 'Class Test' %}exam-class-test{% else %}exam-endsem{% endif %}">
+                                <strong class="exam-type-tag">{{ exam_type }}</strong>
+                                <span class="exam-subject"> - {{ exam['subject_name'] }}</span>
+                                <span class="exam-date">{{ exam['exam_date'] }}</span>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="exam-list-item" style="opacity: 0.7;">No exam dates scheduled.</li>
+                    {% endif %}
                 </ul>
-            {% else %}
-            <p>No active subjects to prioritize. Add some study topics!</p>
-            {% endif %}
+            </div>
+            
+            <div id="priority-topics">
+                <h3 style="color: var(--accent-color); border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; font-weight: 300;">🔥 Top Priority Topics</h3>
+                {% if subjects %}
+                    <ul class="clean-list">
+                        {% for subject in subjects[:3] %}
+                            <li class="priority-item">
+                                <strong style="color: var(--accent-color);">{{ loop.index }}. [{{ subject['subject_name'] }} U{{ subject['subject_unit'] }}]</strong> 
+                                {{ subject['chapter_name'] }}
+                                <span class="priority-days">
+                                    {% if subject.days_left < 5 %}
+                                        <span class="urgent-red">({{ subject.days_left }} Days Left!)</span>
+                                    {% else %}
+                                        <span style="color: #b0e0e6;">({{ subject.days_left }} Days)</span>
+                                    {% endif %}
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                <p>No active subjects to prioritize. Add some study topics!</p>
+                {% endif %}
+            </div>
             
             <div id="completed-tasks" style="margin-top: 30px;">
-                <h3 style="color: #63b363; border-bottom: 1px solid #4CAF50; padding-bottom: 5px;">✅ Completed Tasks</h3>
-                <ul style="list-style: none; padding-left: 0; font-size: 0.9em; max-height: 150px; overflow-y: auto;">
+                <h3 style="color: #63b363; border-bottom: 1px solid #4CAF50; padding-bottom: 5px; font-weight: 300;">✅ Completed Tasks</h3>
+                <ul class="clean-list small-scroll-list">
                     {% if completed_subjects %}
                         {% for subject in completed_subjects %}
                             <li style="margin-bottom: 5px; opacity: 0.7;">
