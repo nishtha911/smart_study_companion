@@ -1,16 +1,15 @@
 from flask import Flask, render_template, g, request, redirect, url_for
 import mysql.connector
-from datetime import date, datetime
+from datetime import date, datetime 
 
 app = Flask(__name__)
 
 MYSQL_CONFIG = {
-    'user': 'root',
-    'password': 'root',
+    'user': 'root', 
+    'password': 'root', 
     'host': '127.0.0.1',
     'database': 'study_companion_db'
 }
-
 
 def get_db():
     if 'db_conn' not in g:
@@ -19,9 +18,8 @@ def get_db():
             g.db_conn.autocommit = True
         except mysql.connector.Error as err:
             print(f"❌ ERROR: Cannot connect to MySQL → {err}")
-            g.db_conn = None
+            g.db_conn = None 
     return g.db_conn
-
 
 def get_cursor():
     db = get_db()
@@ -29,13 +27,11 @@ def get_cursor():
         return db.cursor(dictionary=True, buffered=True)
     return None
 
-
 @app.teardown_appcontext
 def close_connection(exception):
     db = g.pop('db_conn', None)
     if db and db.is_connected():
         db.close()
-
 
 def init_db():
     print("🔧 Initializing database...")
@@ -66,22 +62,7 @@ def init_db():
 
     cursor = db.cursor()
     try:
-        create_table_query = """
-        CREATE TABLE IF NOT EXISTS subjects (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            subject_name VARCHAR(255) NOT NULL,
-            subject_unit INT DEFAULT 0,
-            chapter_name VARCHAR(500) NOT NULL,
-            difficulty INT,
-            deadline DATE,
-            progress_pct INT DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE KEY unique_subject_chapter (subject_name, chapter_name)
-        )
-        """
-        cursor.execute(create_table_query)
-        db.commit()
-        print("✓ Table created.")
+        print("✓ Table setup complete.")
     except mysql.connector.Error as err:
         print(f"❌ Table creation failed: {err}")
     finally:
@@ -128,12 +109,20 @@ def index():
             ORDER BY deadline DESC;
         """)
         completed = cursor.fetchall()
+        
+        cursor.execute("""
+            SELECT subject_name, exam_type, exam_date 
+            FROM exams 
+            ORDER BY exam_date ASC;
+        """)
+        exams = cursor.fetchall()
 
         active = calculate_days_left(active)
 
         return render_template("index.html",
                                subjects=active,
-                               completed_subjects=completed)
+                               completed_subjects=completed,
+                               exams=exams) 
     finally:
         cursor.close()
 
