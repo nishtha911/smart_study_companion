@@ -4,19 +4,14 @@ from datetime import date, datetime
 
 app = Flask(__name__)
 
-# -------------------------------------------------------
-# MySQL CONFIG
-# -------------------------------------------------------
 MYSQL_CONFIG = {
     'user': 'root',
-    'password': 'root',     # <-- CHANGE IF NEEDED
+    'password': 'root',
     'host': '127.0.0.1',
     'database': 'study_companion_db'
 }
 
-# -------------------------------------------------------
-# GET DB CONNECTION
-# -------------------------------------------------------
+
 def get_db():
     if 'db_conn' not in g:
         try:
@@ -41,13 +36,10 @@ def close_connection(exception):
     if db and db.is_connected():
         db.close()
 
-# -------------------------------------------------------
-# INIT DATABASE
-# -------------------------------------------------------
+
 def init_db():
     print("🔧 Initializing database...")
 
-    # Connect ONLY to MySQL server (no DB yet)
     try:
         conn = mysql.connector.connect(
             user=MYSQL_CONFIG['user'],
@@ -56,7 +48,6 @@ def init_db():
         )
         cursor = conn.cursor()
 
-        # Create DB if not exists
         cursor.execute("CREATE DATABASE IF NOT EXISTS study_companion_db;")
         conn.commit()
 
@@ -68,7 +59,6 @@ def init_db():
         print(f"❌ Could not create database: {err}")
         return
 
-    # Reconnect to actual DB
     db = get_db()
     if not db:
         print("❌ Could not connect to study_companion_db after creation.")
@@ -97,10 +87,6 @@ def init_db():
     finally:
         cursor.close()
 
-
-# -------------------------------------------------------
-# HELPER FUNCTIONS
-# -------------------------------------------------------
 def calculate_days_left(subjects):
     today = date.today()
     processed = []
@@ -120,10 +106,6 @@ def calculate_days_left(subjects):
         processed.append(item)
     return processed
 
-
-# -------------------------------------------------------
-# ROUTES
-# -------------------------------------------------------
 @app.route('/')
 def index():
     cursor = get_cursor()
@@ -222,9 +204,6 @@ def delete_subject():
     cursor.close()
     return redirect(url_for('index'))
 
-# -------------------------------------------------------
-# RUN APP
-# -------------------------------------------------------
 if __name__ == "__main__":
     with app.app_context():
         init_db()
