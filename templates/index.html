@@ -14,7 +14,7 @@
     <main id="dashboard-layout">
         
         <section class="feature-card" id="input-form">
-            <h2>➕ Add New Subject</h2>
+            <h2>Add New Subject</h2>
             <form method="POST" action="/add_subject">
                 <p>
                     <label for="syllabus_unit">Subject Name (Core Course):</label>
@@ -52,7 +52,7 @@
         </section>
 
         <section class="feature-card" id="tracker-placeholder">
-            <h2>🔥 Active Topics (Incomplete)</h2>
+            <h2>Active Topics (Incomplete)</h2>
             {% if subjects %}
             <table>
                 <thead>
@@ -105,7 +105,7 @@
         </section>
         
         <section class="feature-card" id="planner-placeholder">
-            <h2>🧠 Smart Study Planner</h2>
+            <h2>Smart Study Planner</h2>
 
             <div id="exam-calendar" style="margin-bottom: 25px;">
                 <h3 style="color: #ffcc00; border-bottom: 1px solid #ffcc00; padding-bottom: 5px; font-weight: 300;">🗓 Upcoming Exams</h3>
@@ -127,7 +127,7 @@
             </div>
             
             <div id="priority-topics">
-                <h3 style="color: var(--accent-color); border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; font-weight: 300;">🔥 Top Priority Topics</h3>
+                <h3 style="color: var(--accent-color); border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; font-weight: 300;">Top Priority Topics</h3>
                 {% if subjects %}
                     <ul class="clean-list">
                         {% for subject in subjects[:3] %}
