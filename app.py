@@ -74,15 +74,31 @@ def calculate_days_left(subjects):
 
     for sub in subjects:
         item = dict(sub)
-        deadline = item['deadline']
+        
+        if 'deadline' in item:
+            date_raw = item['deadline']
+            date_key = 'formatted_deadline'
+        elif 'exam_date' in item:
+            date_raw = item['exam_date']
+            date_key = 'formatted_deadline' 
+        else:
+            date_raw = None
+            date_key = 'formatted_deadline'
 
-        if isinstance(deadline, datetime):
-            deadline = deadline.date()
 
-        if deadline:
-            item['days_left'] = (deadline - today).days
+        if isinstance(date_raw, datetime):
+            date_obj = date_raw.date()
+        elif date_raw:
+            date_obj = datetime.strptime(str(date_raw), '%Y-%m-%d').date()
+        else:
+            date_obj = None
+
+        if date_obj:
+            item['days_left'] = (date_obj - today).days
+            item[date_key] = date_obj.strftime('%d-%m-%Y') 
         else:
             item['days_left'] = None
+            item[date_key] = 'N/A'
 
         processed.append(item)
     return processed
@@ -118,11 +134,14 @@ def index():
         exams = cursor.fetchall()
 
         active = calculate_days_left(active)
+        completed_formatted = calculate_days_left(completed)
+        exams_formatted = calculate_days_left(exams)
+
 
         return render_template("index.html",
                                subjects=active,
-                               completed_subjects=completed,
-                               exams=exams) 
+                               completed_subjects=completed_formatted,
+                               exams=exams_formatted) 
     finally:
         cursor.close()
 
@@ -138,7 +157,7 @@ def add_subject():
     chapter = request.form['name']
     sub_topic = request.form.get('sub_topic')
     difficulty = int(request.form['difficulty'])
-    deadline = request.form['deadline']
+    deadline = request.form['deadline'] 
 
     final_chapter = f"{chapter}: {sub_topic}" if sub_topic else chapter
 
