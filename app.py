@@ -17,7 +17,7 @@ def get_db():
             g.db_conn = mysql.connector.connect(**MYSQL_CONFIG)
             g.db_conn.autocommit = True
         except mysql.connector.Error as err:
-            print(f"❌ ERROR: Cannot connect to MySQL → {err}")
+            print(f"ERROR: Cannot connect to MySQL: {err}")
             g.db_conn = None 
     return g.db_conn
 
@@ -34,7 +34,7 @@ def close_connection(exception):
         db.close()
 
 def init_db():
-    print("🔧 Initializing database...")
+    print("Initializing database...")
 
     try:
         conn = mysql.connector.connect(
@@ -49,33 +49,33 @@ def init_db():
 
         cursor.close()
         conn.close()
-        print("✓ Database exists.")
+        print("Database exists.")
 
     except mysql.connector.Error as err:
-        print(f"❌ Could not create database: {err}")
+        print(f"Could not create database: {err}")
         return
 
     db = get_db()
     if not db:
-        print("❌ Could not connect to study_companion_db after creation.")
+        print("Could not connect to study_companion_db after creation.")
         return
 
     cursor = db.cursor()
     try:
-        print("✓ Table setup complete.")
+        print("Table setup complete.")
     except mysql.connector.Error as err:
-        print(f"❌ Table creation failed: {err}")
+        print(f"Table creation failed: {err}")
     finally:
         cursor.close()
 
-def calculate_days_left(subjects):
+def calculate_days_left(subjects): 
     today = date.today()
     processed = []
 
-    for sub in subjects:
+    for sub in subjects: #converted the format from yyyy-mm-dd to dd-mm-yyyy
         item = dict(sub)
         
-        if 'deadline' in item:
+        if 'deadline' in item: 
             date_raw = item['deadline']
             date_key = 'formatted_deadline'
         elif 'exam_date' in item:
@@ -168,7 +168,7 @@ def add_subject():
         """, (subject_name, subject_unit, final_chapter, difficulty, deadline))
         cursor.connection.commit()
     except mysql.connector.Error as err:
-        print(f"❌ Insert failed: {err}")
+        print(f"Insert failed: {err}")
     finally:
         cursor.close()
 
@@ -188,7 +188,7 @@ def complete_subject():
             cursor.execute("UPDATE subjects SET progress_pct = 100 WHERE id = %s", (subject_id,))
             cursor.connection.commit()
         except mysql.connector.Error as err:
-            print(f"❌ Update failed: {err}")
+            print(f"Update failed: {err}")
 
     cursor.close()
     return redirect(url_for('index'))
@@ -207,7 +207,7 @@ def delete_subject():
             cursor.execute("DELETE FROM subjects WHERE id = %s", (subject_id,))
             cursor.connection.commit()
         except mysql.connector.Error as err:
-            print(f"❌ Delete failed: {err}")
+            print(f"Delete failed: {err}")
 
     cursor.close()
     return redirect(url_for('index'))
