@@ -111,7 +111,7 @@ def index():
 
     try:
         cursor.execute("""
-            SELECT id, subject_name, chapter_name, difficulty, deadline, progress_pct, subject_unit
+            SELECT id, subject_name, chapter_name, topic_name, difficulty, deadline, progress_pct, subject_unit
             FROM subjects
             WHERE progress_pct < 100
             ORDER BY deadline ASC;
