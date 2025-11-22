@@ -1,3 +1,2 @@
-Smart Study Companion
-
+**Smart Study Companion**
 AI Plan Generator
