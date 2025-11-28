@@ -149,24 +149,25 @@ def index():
 @app.route('/add_subject', methods=['POST'])
 def add_subject():
     cursor = get_cursor()
-    if not cursor:
+    db = get_db() 
+    if not cursor or not db:
         return redirect(url_for('index'))
 
     subject_name = request.form['syllabus_unit']
     subject_unit = int(request.form.get('unit_number', 0))
-    chapter = request.form['name']
-    sub_topic = request.form.get('sub_topic')
+    chapter_name = request.form['name']
+    topic_name = request.form.get('sub_topic')
     difficulty = int(request.form['difficulty'])
     deadline = request.form['deadline'] 
 
-    final_chapter = f"{chapter}: {sub_topic}" if sub_topic else chapter
+    final_chapter = f"{chapter_name}: {topic_name}" if topic_name else chapter_name
 
     try:
         cursor.execute("""
-            INSERT INTO subjects (subject_name, subject_unit, chapter_name, difficulty, deadline)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (subject_name, subject_unit, final_chapter, difficulty, deadline))
-        cursor.connection.commit()
+            INSERT INTO subjects (subject_name, subject_unit, chapter_name, topic_name, difficulty, deadline)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (subject_name, subject_unit, chapter_name, topic_name, difficulty, deadline))
+        db.commit() 
     except mysql.connector.Error as err:
         print(f"Insert failed: {err}")
     finally:
@@ -178,7 +179,8 @@ def add_subject():
 @app.route('/complete_subject', methods=['POST'])
 def complete_subject():
     cursor = get_cursor()
-    if not cursor:
+    db = get_db() 
+    if not cursor or not db:
         return redirect(url_for('index'))
 
     subject_id = request.form.get('subject_id')
@@ -186,7 +188,7 @@ def complete_subject():
     if subject_id:
         try:
             cursor.execute("UPDATE subjects SET progress_pct = 100 WHERE id = %s", (subject_id,))
-            cursor.connection.commit()
+            db.commit() 
         except mysql.connector.Error as err:
             print(f"Update failed: {err}")
 
@@ -197,7 +199,8 @@ def complete_subject():
 @app.route('/delete_subject', methods=['POST'])
 def delete_subject():
     cursor = get_cursor()
-    if not cursor:
+    db = get_db() 
+    if not cursor or not db:
         return redirect(url_for('index'))
 
     subject_id = request.form.get('subject_id')
@@ -205,7 +208,7 @@ def delete_subject():
     if subject_id:
         try:
             cursor.execute("DELETE FROM subjects WHERE id = %s", (subject_id,))
-            cursor.connection.commit()
+            db.commit() 
         except mysql.connector.Error as err:
             print(f"Delete failed: {err}")
 
