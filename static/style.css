@@ -1,5 +1,5 @@
 body {
-   font-family: 'Roboto'; 
+   font-family: 'Roboto';
    background-color: #0c1d16; 
    color: #f0f0f5; 
    margin: 0;
@@ -93,6 +93,11 @@ h2 {
    background-color: rgba(255, 255, 255, 0.05); 
    color: white; 
    font-size: 1em;
+}
+
+.feature-card select option {
+    background-color: #1a1a1d; 
+    color: white; 
 }
 
 .feature-card button[type="submit"] {
