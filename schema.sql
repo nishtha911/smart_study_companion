@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS subjects (
     difficulty INT CHECK (difficulty BETWEEN 1 AND 5),
     deadline DATE,
     progress_pct INT DEFAULT 0 CHECK (progress_pct BETWEEN 0 AND 100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_subject_chapter (subject_name, chapter_name(255))
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
