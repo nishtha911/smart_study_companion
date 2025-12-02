@@ -17,6 +17,6 @@
 - Design: Custom Dark Mode with Emerald Green "Liquid Glass" Aesthetic
 
 ## To be updated
-> I will integrate a chatbot
-> Allow to sort the table by subjects OR difficulty whatever
-> User Login
+> - I will integrate a chatbot
+> - Allow to sort the table by subjects OR difficulty whatever
+> - User Login
