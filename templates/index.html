@@ -41,6 +41,14 @@
                     <input type="number" id="unit_number" name="unit_number" min="1" value="1" required>
                 </p>
 
+                                <p>
+                    <label for="progress_pct">Initial Progress:</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="progress_pct" name="progress_pct" oninput="document.getElementById('progress-value').innerText = this.value + '%'">
+                        <span id="progress-value">0%</span>
+                    </div>
+                </p>
+
                 <p>
                     <label for="name">Chapter Name:</label>
                     <input type="text" id="name" name="name" required>
