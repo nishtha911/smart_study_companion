@@ -26,11 +26,11 @@ Follow the steps below to run this project on your local system.
 
 1. Clone the repository
 
-git clone https://github.com/nishtha911/smart_study_companion.git
+  git clone https://github.com/nishtha911/smart_study_companion.git
 
 2. Move into the project folder
 
-cd smart_study_companion
+  `cd smart_study_companion`
 
 
 3. Set up a local server (XAMPP) (Install it from https://www.apachefriends.org/)
@@ -47,7 +47,7 @@ cd smart_study_companion
 
 5. Run the project in your browser
 
-http://localhost/smart_study_companion
+  http://localhost/smart_study_companion
 
 ## Contributing
 
